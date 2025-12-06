@@ -1,5 +1,9 @@
 import express, { Request, Response } from "express";
-import { Pool } from 'pg'
+import { Pool } from 'pg' ;
+import dotenv from "dotenv" ;
+import path from "path" ; 
+
+dotenv.config({path : path.join(process.cwd() , ".env")})
 
 const app = express();
 app.use(express.json());
@@ -7,10 +11,11 @@ app.use(express.json());
 const port = 5000;
 
 const pool = new Pool({
-    connectionString : `postgresql://neondb_owner:npg_0AKtsZpPoE1U@ep-morning-sun-a8jcfv0m-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=require`
+    connectionString : `${process.env.CONNECTION_STR}`
 }); 
 
 const initDB = async () => {
+
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users(
     id SERIAL PRIMARY KEY,
