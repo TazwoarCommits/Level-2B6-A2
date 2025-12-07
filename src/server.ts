@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import config from "./config";
 import { initDB } from "./config/db";
+import { userRoutes } from "./modules/users/users.routes";
 
 const app = express();
 app.use(express.json());
@@ -9,7 +10,12 @@ const port = config.port;
 
 // DB Initialized
 initDB() ; 
- 
+
+app.use("/api/v1/users", userRoutes ) ; 
+
+// app.use("/api/v1/vehicles")
+
+// app.use("/api/v1/bookings")
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hell Yeah!");

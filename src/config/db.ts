@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import config from ".";
 
 
-const pool = new Pool({
+export const pool = new Pool({
     connectionString : config.connectionStr
 }); 
 
@@ -15,7 +15,7 @@ export const initDB = async () => {
     email VARCHAR(150) UNIQUE NOT NULL CHECK (email = LOWER(email)),
     password VARCHAR(260) NOT NULL CHECK (LENGTH(password) >= 6 ),
     phone VARCHAR(15) NOT NULL , 
-    role VARCHAR(12) CHECK (role IN ('customer' , 'admin'))
+    role VARCHAR(12) DEFAULT 'customer' CHECK (role IN ('customer' , 'admin'))
     )
     `) ;
 
@@ -34,7 +34,7 @@ export const initDB = async () => {
     CREATE TABLE IF NOT EXISTS bookings(
     id SERIAL PRIMARY KEY,
     customer_id INT REFERENCES users(id) ON DELETE CASCADE , 
-    vehicle_id INT REFERENCES vehicles(id) , 
+    vehicle_id INT REFERENCES vehicles(id)  ON DELETE CASCADE , 
     rent_start_date DATE NOT NULL , 
     rent_end_date DATE NOT NULL , 
     total_price INT NOT NULL ,
