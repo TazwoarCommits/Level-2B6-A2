@@ -5,5 +5,6 @@ const router = Router() ;
 
 router.get("/" , vehiclesControllers.getVehicles) ; 
 router.get("/:id" , vehiclesControllers.getSingleVehicles) ; 
+router.delete("/:id" , vehiclesControllers.deleteVehicle) ; 
 
 export const vehiclesRouter = router ; 

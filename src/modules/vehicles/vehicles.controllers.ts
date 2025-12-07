@@ -42,7 +42,32 @@ const getSingleVehicles = async(req : Request , res : Response) => {
     } ;
 } ;
 
+const deleteVehicle = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const result = await vehiclesServices.deleteVehicle(id as string);
+  try {
+    if (result.rowCount === 0) {
+      res.status(404).json({
+        success: false,
+        message: "Vehicle Not Found",
+      });
+    } else {
+        res.status(200).json({
+        success : true, 
+        message : "Vehicle deleted successfully"
+        }) ;
+    }
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const vehiclesControllers = {
     getVehicles , 
     getSingleVehicles , 
+    deleteVehicle
 }

@@ -10,7 +10,13 @@ const getSingleVehicle = async (id : string) => {
     return result;
 }
 
+const deleteVehicle = async (id : string) => {
+    const result = pool.query(`DELETE FROM vehicles WHERE id = $1`, [id]) ;
+    return result
+};
+
 export const vehiclesServices = {
     getVehicles,
     getSingleVehicle ,
+    deleteVehicle,
 }
