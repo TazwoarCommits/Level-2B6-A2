@@ -17,6 +17,22 @@ const getBookings = async (req: Request, res: Response) => {
   }
 };
 
+const deleteBookings = async  (req : Request , res : Response) => {
+  try {
+    const result = await bookingsServices.deleteBookings(req.params.id as string) ;
+    res.status(200).json({
+      success : true , 
+      message : "Bookings deleted successfully" , 
+      data : result.rowCount 
+    }) ;
+  } catch (error : any) {
+     res.status(500).json({
+      success : true ,
+      message  : error.message
+     }); 
+  }
+}
+
 
 export const bookingsControllers = {
     getBookings, 

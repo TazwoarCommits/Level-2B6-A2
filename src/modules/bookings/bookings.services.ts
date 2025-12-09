@@ -6,6 +6,12 @@ const getBookings = async () => {
 } ;
 
 
+const deleteBookings = async (id : string) => {
+   const result = pool.query(`DELETE FROM bookings WHERE id = $1` , [id]) ; 
+   return result ; 
+}
+
 export const bookingsServices = {
     getBookings , 
+    deleteBookings, 
 }
