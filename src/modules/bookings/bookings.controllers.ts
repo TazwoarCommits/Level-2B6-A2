@@ -36,4 +36,5 @@ const deleteBookings = async  (req : Request , res : Response) => {
 
 export const bookingsControllers = {
     getBookings, 
+    deleteBookings , 
 }
