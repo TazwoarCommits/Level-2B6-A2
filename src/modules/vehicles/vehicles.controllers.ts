@@ -19,7 +19,7 @@ const getVehicles = async (req : Request , res : Response) => {
   }
 }
 
-const getSingleVehicles = async(req : Request , res : Response) => {
+const getSingleVehicle = async(req : Request , res : Response) => {
     try{
         const result = await vehiclesServices.getSingleVehicle(req.params.id as string) ; 
         if (result.rows.length === 0) {
@@ -68,6 +68,6 @@ const deleteVehicle = async (req: Request, res: Response) => {
 
 export const vehiclesControllers = {
     getVehicles , 
-    getSingleVehicles , 
+    getSingleVehicle , 
     deleteVehicle
 }

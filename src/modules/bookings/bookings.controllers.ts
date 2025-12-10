@@ -17,6 +17,32 @@ const getBookings = async (req: Request, res: Response) => {
   }
 };
 
+
+const getSingleBooking = async(req : Request , res : Response) => {
+    try{
+        const result = await bookingsServices.getSingleBooking(req.params.id as string ) ; 
+        if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User Not found",
+        data: result.rows[0],
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "User fetched successfully",
+      });
+    }
+    } catch(err : any){
+        res.status(500).json({
+            success : true , 
+            message : err.message
+        });
+    } ;
+} ;
+
+
+
 const deleteBookings = async  (req : Request , res : Response) => {
   try {
     const result = await bookingsServices.deleteBookings(req.params.id as string) ;
@@ -32,6 +58,8 @@ const deleteBookings = async  (req : Request , res : Response) => {
      }); 
   }
 }
+
+
 
 
 export const bookingsControllers = {
