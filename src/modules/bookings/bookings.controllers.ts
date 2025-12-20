@@ -46,11 +46,17 @@ const getSingleBooking = async(req : Request , res : Response) => {
 const deleteBookings = async  (req : Request , res : Response) => {
   try {
     const result = await bookingsServices.deleteBookings(req.params.id as string) ;
-    res.status(200).json({
-      success : true , 
-      message : "Bookings deleted successfully" , 
-      data : result.rowCount 
-    }) ;
+    if (result.rowCount === 0 ) {
+      res.status(404).json({
+        success : false, 
+        message : "Booking Not Found" ,
+      }) ; 
+    } else {
+      res.status(200).json({
+        success : true , 
+        message : "Booking Deleted Successfully"
+      }) ;
+    } 
   } catch (error : any) {
      res.status(500).json({
       success : true ,

@@ -17,7 +17,7 @@ app.use("/api/v1/users", userRoutes ) ;
 
 app.use("/api/v1/vehicles" , vehiclesRouter) ; 
 
-app.use("/api/v1/bookings", bookingRouter)
+app.use("/api/v1/bookings", bookingRouter) ;
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hell Yeah!");
