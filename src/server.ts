@@ -3,6 +3,7 @@ import config from "./config";
 import { initDB } from "./config/db";
 import { userRoutes } from "./modules/users/users.routes";
 import { vehiclesRouter } from "./modules/vehicles/vehicles.routes";
+import { bookingRouter } from "./modules/bookings/bookings.routes";
 
 const app = express();
 app.use(express.json());
@@ -16,7 +17,7 @@ app.use("/api/v1/users", userRoutes ) ;
 
 app.use("/api/v1/vehicles" , vehiclesRouter) ; 
 
-// app.use("/api/v1/bookings")
+app.use("/api/v1/bookings", bookingRouter)
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hell Yeah!");

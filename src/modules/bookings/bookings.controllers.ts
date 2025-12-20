@@ -7,7 +7,7 @@ const getBookings = async (req: Request, res: Response) => {
     return res.status(200).json({
         success : true, 
         message : "Bookings retrieved successfully" ,
-        data : result
+        data : result.rows
     }) ;
   } catch (error: any) {
     return res.status(500).json({
@@ -64,5 +64,6 @@ const deleteBookings = async  (req : Request , res : Response) => {
 
 export const bookingsControllers = {
     getBookings, 
-    deleteBookings , 
+    deleteBookings ,
+    getSingleBooking 
 }

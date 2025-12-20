@@ -4,9 +4,10 @@ import { bookingsControllers } from "./bookings.controllers";
 const router = Router();
 
 router.get("/", bookingsControllers.getBookings) ; 
-router.post("/" , ) ; 
+router.get("/:id", bookingsControllers.getSingleBooking)
+// router.post("/" , ) ; 
 router.delete("/:id" , bookingsControllers.deleteBookings) ; 
-router.put("/:id") ; 
+// router.put("/:id") ; 
 
 
 export const bookingRouter = router ;
