@@ -4,7 +4,12 @@ import { authServices } from "./auth.services";
 const signupUser = async (req: Request, res: Response) => {
   try {
     const result = await authServices.signUpUser(req);
-    console.log(result);
+    if(result === null){
+      return res.status(400).json({
+        success : false , 
+        message : "Password must be at least 6 characters long"
+      })
+    }
     res.status(201).json({
       success: true,
       message: "User registered successfully",

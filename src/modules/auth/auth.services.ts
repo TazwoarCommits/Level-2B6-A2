@@ -1,11 +1,16 @@
 import e, { Request } from "express";
 import { pool } from "../../config/db";
 import bcrypt from "bcryptjs";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import config from "../../config";
 
 const signUpUser = async (req: Request) => {
   const { name, email, password, phone, role } = req.body;
+  
+  if(password.length < 6){
+    return null;    
+  }
+
   const hashedPass = await bcrypt.hash(password as string, 10);
 
   const result = await pool.query(
