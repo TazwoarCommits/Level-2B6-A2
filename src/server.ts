@@ -4,6 +4,7 @@ import { initDB } from "./config/db";
 import { userRoutes } from "./modules/users/users.routes";
 import { vehiclesRouter } from "./modules/vehicles/vehicles.routes";
 import { bookingRouter } from "./modules/bookings/bookings.routes";
+import { authRoutes } from "./modules/auth/auth.routes";
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,8 @@ const port = config.port;
 
 // DB Initialized
 initDB() ; 
+
+app.use("/api/v1/auth", authRoutes ) ;
 
 app.use("/api/v1/users", userRoutes ) ; 
 
