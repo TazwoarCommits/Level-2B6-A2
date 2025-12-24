@@ -13,7 +13,7 @@ const auth = () => {
     const token = authHeader.split(" ")[1] ; 
 //  console.log({withBearer : authHeader , token : token});
 
-    // const decoded = jwt.verify(token as string , config.jwt_secret as string)
+    const decoded = jwt.verify(token as string , config.jwt_secret as string)
     // console.log(decoded);
     // next();
   };
