@@ -4,6 +4,7 @@ import { authServices } from "./auth.services";
 const signupUser = async (req: Request, res: Response) => {
   try {
     const result = await authServices.signUpUser(req);
+    console.log(result);
     res.status(201).json({
       success: true,
       message: "User registered successfully",
