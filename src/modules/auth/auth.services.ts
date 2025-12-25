@@ -33,7 +33,8 @@ const signInUser = async (req: Request) => {
 
   const user = result.rows[0];
 
-  const match = bcrypt.compare(password, user.password);
+  const match = await bcrypt.compare(password, user.password);
+  // console.log( match );
 
   if (!match) {
     return false;
