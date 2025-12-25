@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { usersServices } from "./users.services";
+import { JwtPayload } from "jsonwebtoken";
 
 const getUsers = async (req: Request, res: Response) => {
   try {
@@ -21,7 +22,15 @@ const getUsers = async (req: Request, res: Response) => {
 
 const getSingleUser = async (req: Request, res: Response) => {
   const id = req.params.id;
+  const authUser = req.user as JwtPayload ; 
+  console.log(id , authUser.id);
 
+  if(authUser.role === "customer" && String(id) !== String(authUser.id) ){
+    return res.status(403).json({
+      error : "Forbidden"
+    })
+  }
+  
   try {
     const result = await usersServices.getSingleUser(id as string);
 
@@ -29,12 +38,12 @@ const getSingleUser = async (req: Request, res: Response) => {
       return res.status(404).json({
         success: false,
         message: "User Not found",
-        data: result.rows[0],
       });
     } else {
       return res.status(200).json({
         success: true,
         message: "User fetched successfully",
+         data: result.rows[0],
       });
     }
   } catch (error: any) {
