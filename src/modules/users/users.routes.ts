@@ -6,6 +6,6 @@ const router = Router() ;
 
 router.get("/" , auth("admin") ,userControllers.getUsers);
 router.get("/:id" , auth("admin" , "customer"), userControllers.getSingleUser) ; 
-router.delete("/:id" , userControllers.deleteUser)
+router.delete("/:id" ,auth("admin") , userControllers.deleteUser)
 
 export const userRoutes = router ; 

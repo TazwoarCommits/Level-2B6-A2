@@ -1,13 +1,30 @@
 import { Request, Response } from "express";
 import { vehiclesServices } from "./vehicles.services";
 
+const createVehicle = async(req : Request , res : Response) => {
+  try {
+    const result = await vehiclesServices.createVehicle(req) ; 
+    return res.status(201).json({
+      success: true,
+      message: "Vehicle created successfully",
+      data : result.rows[0] 
+    })
+  } catch (error : any) {
+      return res.status(500).json({
+        success : false , 
+        message : error.message ,
+        error : error
+      })
+  }
+}
+
 const getVehicles = async (req : Request , res : Response) => {
     try {
         const result = await vehiclesServices.getVehicles() ;
 
         return res.status(200).json({
             success : true ,
-            message : "Users retrieved successfully" , 
+            message : "Vehicle retrieved successfully" , 
             data: result.rows,
         })
     } catch (error : any) {
@@ -67,6 +84,7 @@ const deleteVehicle = async (req: Request, res: Response) => {
 };
 
 export const vehiclesControllers = {
+    createVehicle , 
     getVehicles , 
     getSingleVehicle , 
     deleteVehicle

@@ -16,7 +16,7 @@ const auth = (...roles : string []) => {
       //  console.log({withBearer : authHeader , token : token});
 
       const decoded = jwt.verify(token as string, config.jwt_secret as string) as JwtPayload;
-      console.log(decoded);
+      // console.log(decoded);
 
       req.user = decoded as JwtPayload;
       console.log("loggedIn User",req.user);

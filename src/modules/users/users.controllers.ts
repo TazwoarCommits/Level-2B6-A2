@@ -58,6 +58,7 @@ const deleteUser = async (req: Request, res: Response) => {
   const id = req.params.id;
 
   const result = await usersServices.deleteUser(id as string);
+  console.log(result.rowCount);
   try {
     if (result.rowCount === 0) {
       res.status(404).json({
