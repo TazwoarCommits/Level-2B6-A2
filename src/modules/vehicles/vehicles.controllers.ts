@@ -1,81 +1,94 @@
 import { Request, Response } from "express";
 import { vehiclesServices } from "./vehicles.services";
+import { JwtPayload } from "jsonwebtoken";
 
-const createVehicle = async(req : Request , res : Response) => {
+const createVehicle = async (req: Request, res: Response) => {
   try {
-    const result = await vehiclesServices.createVehicle(req) ; 
+    const result = await vehiclesServices.createVehicle(req);
     return res.status(201).json({
       success: true,
       message: "Vehicle created successfully",
-      data : result.rows[0] 
-    })
-  } catch (error : any) {
-      return res.status(500).json({
-        success : false , 
-        message : error.message ,
-        error : error
-      })
+      data: result.rows[0],
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
   }
-}
+};
 
-const getVehicles = async (req : Request , res : Response) => {
-    try {
-        const result = await vehiclesServices.getVehicles() ;
+const getVehicles = async (req: Request, res: Response) => {
+  try {
+    const result = await vehiclesServices.getVehicles();
 
-        return res.status(200).json({
-            success : true ,
-            message : "Vehicle retrieved successfully" , 
-            data: result.rows,
-        })
-    } catch (error : any) {
+    return res.status(200).json({
+      success: true,
+      message: "Vehicle retrieved successfully",
+      data: result.rows,
+    });
+  } catch (error: any) {
     return res.status(500).json({
       success: false,
       message: error.message,
       details: error,
     });
   }
-}
+};
 
-const getSingleVehicle = async(req : Request , res : Response) => {
-    try{
-        const result = await vehiclesServices.getSingleVehicle(req.params.id as string) ; 
-        if (result.rows.length === 0) {
+const getSingleVehicle = async (req: Request, res: Response) => {
+  try {
+    const result = await vehiclesServices.getSingleVehicle(
+      req.params.id as string
+    );
+    if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "Vehicle Not found"
+        message: "Vehicle Not found",
       });
     } else {
       return res.status(200).json({
         success: true,
         message: "User fetched successfully",
         data: result.rows[0],
-
       });
     }
-    } catch(err : any){
-        res.status(500).json({
-            success : true , 
-            message : err.message
-        });
-    } ;
-} ;
+  } catch (err: any) {
+    res.status(500).json({
+      success: true,
+      message: err.message,
+    });
+  }
+};
 
 const deleteVehicle = async (req: Request, res: Response) => {
   const id = req.params.id;
+  const user = req.user;
+  console.log("from controller", { user });
 
-  const result = await vehiclesServices.deleteVehicle(id as string);
+  const result = await vehiclesServices.deleteVehicle(id as string); 
+  
   try {
-    if (result.rowCount === 0) {
+    if (result.status === "BOOKED") {
+      res.status(400).json({
+        success: false,
+        message: "Vehicle is booked , Try when vehicle is available",
+      });
+    }
+
+    if (result.status === "NOT_FOUND") {
       res.status(404).json({
         success: false,
         message: "Vehicle Not Found",
       });
-    } else {
-        res.status(200).json({
-        success : true, 
-        message : "Vehicle deleted successfully"
-        }) ;
     }
+
+    res.status(200).json({
+      success: true,
+      message: "Vehicle deleted successfully",
+    }); 
+    
   } catch (error: any) {
     return res.status(500).json({
       success: false,
@@ -85,8 +98,8 @@ const deleteVehicle = async (req: Request, res: Response) => {
 };
 
 export const vehiclesControllers = {
-    createVehicle , 
-    getVehicles , 
-    getSingleVehicle , 
-    deleteVehicle
-}
+  createVehicle,
+  getVehicles,
+  getSingleVehicle,
+  deleteVehicle,
+};

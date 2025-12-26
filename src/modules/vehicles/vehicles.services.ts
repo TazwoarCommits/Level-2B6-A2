@@ -1,5 +1,6 @@
 import { Request } from "express";
 import { pool } from "../../config/db";
+import { JwtPayload } from "jsonwebtoken";
 
 
 const createVehicle = async (req : Request) => {
@@ -22,9 +23,19 @@ const getSingleVehicle = async (id : string) => {
     return result;
 }
 
-const deleteVehicle = async (id : string) => {
-    const result = await pool.query(`DELETE FROM vehicles WHERE id = $1`, [id]) ;
-    return result ; 
+const deleteVehicle = async (id : string ) => {
+    const queriedVehicle = await pool.query(`SELECT * FROM vehicles WHERE id = $1`, [id]) ;
+
+    if(queriedVehicle.rowCount === 0 ){
+        return {status : "NOT_FOUND"} ; 
+    } ;
+    
+    if(queriedVehicle.rows[0].availability_status === "booked"){
+        return  {status : "BOOKED"}; 
+    }
+
+    await pool.query(`DELETE FROM vehicles WHERE id = $1` , [id]) ; 
+    return {status : "DELETED"} ; 
 };
 
 export const vehiclesServices = {
