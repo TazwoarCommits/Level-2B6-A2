@@ -42,13 +42,14 @@ const getSingleVehicle = async(req : Request , res : Response) => {
         if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "User Not found",
-        data: result.rows[0],
+        message: "Vehicle Not found"
       });
     } else {
       return res.status(200).json({
         success: true,
         message: "User fetched successfully",
+        data: result.rows[0],
+
       });
     }
     } catch(err : any){
