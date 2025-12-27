@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { pool } from "../../config/db";
-import { JwtPayload } from "jsonwebtoken";
+// import { JwtPayload } from "jsonwebtoken";
 
 
 const createVehicle = async (req : Request) => {

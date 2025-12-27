@@ -1,6 +1,37 @@
 import { Request, Response } from "express";
 import { bookingsServices } from "./bookings.services";
 
+const createBooking = async (req : Request , res : Response) => {
+  try {
+    const result = await bookingsServices.createBooking(req as Request) ;
+    if(result?.status === "not_found"){
+      return res.status(404).json({
+           success : false,
+           message : "vehicle not found" ,
+      });
+    }
+
+    if(result?.status === "booked"){
+       return res.status(400).json({
+         success : false,
+         message : "Vehicle is already booked"
+       }) ;
+    } ;
+
+    res.status(201).json({
+       success : true , 
+       message : "Booking done successfully" , 
+
+    }) ;
+  } catch (error : any) {
+   res.status(500).json({
+    success : false , 
+    message : error.message , 
+    error : error 
+   })
+  }
+}
+
 const getBookings = async (req: Request, res: Response) => {
   try {
     const result = await bookingsServices.getBookings() ;
@@ -69,6 +100,7 @@ const deleteBookings = async  (req : Request , res : Response) => {
 
 
 export const bookingsControllers = {
+    createBooking,
     getBookings, 
     deleteBookings ,
     getSingleBooking 
