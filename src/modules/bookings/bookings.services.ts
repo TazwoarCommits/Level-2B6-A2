@@ -21,23 +21,43 @@ const createBooking = async (req: Request) => {
 
   const totalPrice = Number(vehicle?.rows[0]?.daily_rent_price) * dayCounts;
 
-  const booking = await pool.query(`
+  const booking = await pool.query(
+    `
         INSERT INTO bookings (customer_id , vehicle_id , rent_start_date , rent_end_date , total_price , status) 
-        VALUES ($1,$2,$3,$4,$5,$6) RETURNING * 
+        VALUES ($1,$2,$3,$4,$5,$6) RETURNING id, 
+        customer_id, vehicle_id, 
+        TO_CHAR(rent_start_date, 'YYYY-MM-DD') AS rent_start_date, 
+        TO_CHAR(rent_end_date, 'YYYY-MM-DD') AS rent_end_date, 
+        total_price, 
+        status 
         `,
-    [customer_id, vehicle_id, rent_start_date, rent_end_date, totalPrice, "active"]
+    [
+      customer_id,
+      vehicle_id,
+      rent_start_date,
+      rent_end_date,
+      totalPrice,
+      "active",
+    ]
   );
 
-  console.log("booking",booking.rows[0]);
+  if (booking?.rowCount === 1) {
+    const updateBookedVehicle = await pool.query(
+      `UPDATE vehicles SET availability_status = $1 WHERE id = $2 RETURNING * `,
+      ["booked", vehicle_id]
+    );
 
-  if(booking?.rowCount === 1) {
-    const updateBookedVehicle = await pool.query(`UPDATE vehicles SET availability_status = $1 WHERE id = $2 RETURNING * ` , ["booked" , vehicle_id]) ;
-   
+    const result = {
+      ...booking.rows[0],
+      vehicle: {
+        vehicle_name: updateBookedVehicle.rows[0].vehicle_name,
+        daily_rent_price: updateBookedVehicle.rows[0].daily_rent_price,
+      },
+    };
+
+    return result;
   }
-
-  // await pool.query(`UPDATE vehicles SET availability_status = $1 WHERE id = $2` , ["booked" , vehicle_id]) ;
-
-  // console.log("daily price",vehicle?.rows[0]?.daily_rent_price ,"rowCount", vehicle?.rowCount);
+  
 };
 
 const getBookings = async () => {
