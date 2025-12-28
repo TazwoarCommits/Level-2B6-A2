@@ -35,11 +35,11 @@ const createBooking = async (req : Request , res : Response) => {
 
 const getBookings = async (req: Request, res: Response) => {
   try {
-    const result = await bookingsServices.getBookings() ;
+    const result = await bookingsServices.getBookings(req) ;
     return res.status(200).json({
         success : true, 
         message : "Bookings retrieved successfully" ,
-        data : result.rows
+        data : result
     }) ;
   } catch (error: any) {
     return res.status(500).json({
