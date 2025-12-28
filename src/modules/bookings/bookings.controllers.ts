@@ -79,6 +79,12 @@ const updateBooking = async (req : Request , res : Response) => {
         message : "Only yours booking can be cancelled"
       })
      } ; 
+     if (result?.status === "not_found" ){
+      return res.status(404).json({
+        success : false , 
+        message : "Booking does not exist"
+      })
+     } ; 
 
      if (result?.status === "cancelled" ){
       return res.status(200).json({
@@ -88,9 +94,13 @@ const updateBooking = async (req : Request , res : Response) => {
       })
      } ; 
 
-
-
-  
+     if (result?.status === "returned" ){
+      return res.status(200).json({
+        success : true , 
+        message : "Booking marked as returned. Vehicle is now available" , 
+        data : result.result
+      })
+     } ; 
 
    } catch (error : any) {
       return res.status(500).json({
