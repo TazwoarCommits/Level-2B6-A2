@@ -4,6 +4,10 @@ import dayCount from "../../utiliies/dayCount";
 
 const createBooking = async (req: Request) => {
   const { customer_id, vehicle_id, rent_start_date, rent_end_date } = req.body;
+  console.log(req.user);
+  if (req?.user?.id !== customer_id){
+    return {status : "bad_request"}
+  }
 
   const dayCounts = dayCount(rent_end_date, rent_start_date);
   // console.log("dayCounts",dayCounts);
@@ -66,7 +70,13 @@ const getBookings = async (req: Request) => {
   if (role === "admin") {
     const query = `
       SELECT 
-        b.*, 
+        b.id, 
+        b.customer_id , 
+        b.vehicle_id, 
+        TO_CHAR(b.rent_start_date , 'YYYY-MM-DD' ) AS rent_start_date, 
+        TO_CHAR(b.rent_end_date , 'YYYY-MM-DD') AS rent_end_date, 
+        b.total_price, 
+        b.status, 
         json_build_object(
           'name', u.name, 
           'email', u.email
@@ -86,7 +96,12 @@ const getBookings = async (req: Request) => {
   if (role === "customer") {
     const query = `
       SELECT 
-        b.id, b.vehicle_id, b.rent_start_date, b.rent_end_date, b.total_price, b.status,
+        b.id, 
+        b.vehicle_id,
+        TO_CHAR(b.rent_start_date , 'YYYY-MM-DD' ) AS rent_start_date, 
+        TO_CHAR(b.rent_end_date , 'YYYY-MM-DD') AS rent_end_date, 
+        b.total_price,
+        b.status,
         json_build_object(
           'vehicle_name', v.vehicle_name, 
           'registration_number', v.registration_number,
@@ -100,20 +115,72 @@ const getBookings = async (req: Request) => {
     return result.rows;
   }
 };
+ 
 
-const getSingleBooking = async (id: string) => {
-  const result = pool.query(`SELECT * FROM bookings WHERE id = $1`, [id]);
-  return result;
-};
+const updateBooking = async (req : Request ) => {
+  // customers case
+  if(req.user?.role === "customer") {
+    if(req.body.status !== "cancelled"){
+      return {status : "bad_request"}
+    } ; 
 
-const deleteBookings = async (id: string) => {
-  const result = pool.query(`DELETE FROM bookings WHERE id = $1`, [id]);
-  return result;
-};
+    const booking = await pool.query (`SELECT * FROM bookings WHERE id = $1 AND rent_start_date > NOW()` , [req.params.id]) ; 
+    console.log(booking);
+
+    if(booking.rowCount === 0 ){
+      return {status : "forbidden"}
+    } ; 
+
+    if(req.user?.id !== booking.rows[0].customer_id){
+      return {status : "unauthorized"}
+    } ; 
+
+     const updatedBooking = await pool.query(`UPDATE bookings SET status = $1 WHERE id = $2 RETURNING * ` , ["cancelled" ,req.params.id ]) ;
+
+      const updateVehicle = await pool.query(`UPDATE vehicles SET availability_status = $1 WHERE id = $2 RETURNING *` ,["available" ,  booking.rows[0].vehicle_id ])
+
+     return {
+      status : "cancelled",
+      result : updatedBooking.rows[0]
+     }
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const getSingleBooking = async (id: string) => {
+//   const result = pool.query(`SELECT * FROM bookings WHERE id = $1`, [id]);
+//   return result;
+// };
+
+// const deleteBookings = async (id: string) => {
+//   const result = pool.query(`DELETE FROM bookings WHERE id = $1`, [id]);
+//   return result;
+// };
 
 export const bookingsServices = {
   createBooking,
   getBookings,
-  deleteBookings,
-  getSingleBooking,
+  updateBooking,
+  // deleteBookings,
+  // getSingleBooking,
 };

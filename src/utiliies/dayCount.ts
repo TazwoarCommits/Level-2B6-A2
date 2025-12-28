@@ -6,7 +6,7 @@ const dayCount = (rent_end_date: string, rent_start_date: string): number => {
 
   const diffInMs = end.getTime() - start.getTime();
 
-  return Math.floor(diffInMs / msPerDay) + 1 
+  return Math.floor(diffInMs / msPerDay) 
 };
 
 export default dayCount ; 
