@@ -1,7 +1,7 @@
- 🚗 Vehicle Rental System
+# 🚗 Vehicle Rental System
 
-Live URL:
-👉 Coming Soon (Deploy on Vercel / Render / Railway and update this link)
+## Live URL:
+👉 [Vehicle_Rental]https://vehiclesrental.vercel.app
 
 📌 Project Overview
 
@@ -9,44 +9,45 @@ The Vehicle Rental System is a backend-driven application designed to manage veh
 It supports user role-based access, vehicle management, and secure update operations.
 This project focuses on clean API design, authorization logic, and PostgreSQL-based data handling.
 
-✨ Features
-🔐 Authentication & Authorization
+## ✨ Features
 
-Role-based access control (admin, customer)
+### 🔐 Authentication & Authorization
 
-Customers can update only their own data
+* Role-based access control (admin, customer)
 
-Admins have full control over users and vehicles
+* Customers can update only their own data
 
-Unauthorized role changes are blocked
+* Admins have full control over users and vehicles
 
-👤 User Management
+* Unauthorized role changes are blocked
 
-Update user profile (name, email, phone)
+### 👤 User Management
 
-Admin-only role updates
+* Update user profile (name, email, phone)
 
-Proper handling of non-existing users
+* Admin-only role updates
 
-🚘 Vehicle Management
+* Proper handling of non-existing users
+
+### 🚘 Vehicle Management
 
 Add, update, and manage vehicles
 
-Update vehicle details:
+### Update vehicle details:
 
-Vehicle name
+* Vehicle name
 
-Type
+* Type
 
-Registration number
+* Registration number
 
-Daily rent price
+* Daily rent price
 
-Availability status
+* Availability status
 
 Uses parameterized queries to prevent SQL injection
 
-🗄 Database
+### 🗄 Database
 
 PostgreSQL with structured relational schema
 
@@ -54,22 +55,22 @@ Safe queries using prepared statements
 
 Proper error and edge-case handling
 
-🛠 Technology Stack
+### 🛠 Technology Stack
 Backend
 
-Node.js
+* Node.js
 
-Express.js
+* Express.js
 
-TypeScript
+* TypeScript
 
-Database
+* Database
 
-PostgreSQL
+* PostgreSQL
 
-pg (node-postgres)
+* pg (node-postgres)
 
-Tools & Practices
+### Tools & Practices
 
 RESTful API architecture
 
@@ -79,7 +80,7 @@ Clean service-layer logic
 
 Environment-based configuration
 
-⚙️ Setup Instructions
+### ⚙️ Setup Instructions
 1️⃣ Clone the Repository
 git clone https://github.com/TazwoarCommits/Level-2B6-A2.git
 cd vehicle-rental-system
