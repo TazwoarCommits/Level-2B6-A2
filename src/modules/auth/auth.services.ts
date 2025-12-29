@@ -44,7 +44,7 @@ const signInUser = async (req: Request) => {
     { id: user.id, name: user.name, email: user.email, role: user.role },
     config.jwt_secret as string ,
     {
-      expiresIn: "1d",
+      expiresIn: "3d",
     }
   );
 

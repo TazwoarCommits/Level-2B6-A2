@@ -67,8 +67,7 @@ const deleteVehicle = async (req: Request, res: Response) => {
   const user = req.user;
   console.log("from controller", { user });
 
-  const result = await vehiclesServices.deleteVehicle(id as string); 
-  
+  const result = await vehiclesServices.deleteVehicle(id as string);  
   try {
     if (result.status === "BOOKED") {
       res.status(400).json({
