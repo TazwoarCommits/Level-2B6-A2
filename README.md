@@ -1,113 +1,119 @@
 🚗 Vehicle Rental System
-A comprehensive backend solution for managing vehicle rentals, featuring role-based access control, secure PostgreSQL integration, and a clean RESTful API architecture.
 
-🔗 Live Demo
-👉 [Coming Soon] (Deploy on Vercel / Render / Railway and update this link)
+Live URL:
+👉 Coming Soon (Deploy on Vercel / Render / Railway and update this link)
 
 📌 Project Overview
-The Vehicle Rental System is a backend application designed to streamline the process of renting vehicles. It ensures data integrity and security by implementing strict authorization logic and utilizing PostgreSQL for robust data management.
 
-This project demonstrates expertise in:
-
-Clean API design and Service-layer logic.
-
-Relational database schema design.
-
-Secure data handling via parameterized queries.
+The Vehicle Rental System is a backend-driven application designed to manage vehicle rentals efficiently.
+It supports user role-based access, vehicle management, and secure update operations.
+This project focuses on clean API design, authorization logic, and PostgreSQL-based data handling.
 
 ✨ Features
 🔐 Authentication & Authorization
-Role-Based Access Control (RBAC): Distinct permissions for Admin and Customer roles.
 
-Data Privacy: Customers can only update their own personal information.
+Role-based access control (admin, customer)
 
-Admin Control: Admins have full authority over the user base and vehicle fleet.
+Customers can update only their own data
 
-Security: Strict validation to prevent unauthorized role upgrades.
+Admins have full control over users and vehicles
+
+Unauthorized role changes are blocked
 
 👤 User Management
-Update user profiles (name, email, phone).
 
-Admin-specific endpoints for managing roles.
+Update user profile (name, email, phone)
 
-Comprehensive error handling for non-existent users.
+Admin-only role updates
+
+Proper handling of non-existing users
 
 🚘 Vehicle Management
-Full CRUD operations for the vehicle fleet.
 
-Detailed Tracking: Manage names, types, registration numbers, and pricing.
+Add, update, and manage vehicles
 
-Dynamic Availability: Real-time status updates (e.g., available vs booked).
+Update vehicle details:
 
-SQL Security: Prevention of SQL injection through prepared statements.
+Vehicle name
+
+Type
+
+Registration number
+
+Daily rent price
+
+Availability status
+
+Uses parameterized queries to prevent SQL injection
+
+🗄 Database
+
+PostgreSQL with structured relational schema
+
+Safe queries using prepared statements
+
+Proper error and edge-case handling
 
 🛠 Technology Stack
 Backend
-Language: TypeScript
 
-Runtime: Node.js
+Node.js
 
-Framework: Express.js
+Express.js
+
+TypeScript
 
 Database
-Engine: PostgreSQL
 
-Driver: pg (node-postgres)
+PostgreSQL
 
-Architecture & Tools
-RESTful API design
+pg (node-postgres)
 
-Parameterized SQL queries
+Tools & Practices
 
-Environment-based configuration (dotenv)
+RESTful API architecture
+
+Role-based authorization
+
+Clean service-layer logic
+
+Environment-based configuration
 
 ⚙️ Setup Instructions
-1. Clone the Repository
-Bash
-
-git clone https://github.com/your-username/vehicle-rental-system.git
+1️⃣ Clone the Repository
+git clone https://github.com/TazwoarCommits/Level-2B6-A2.git
 cd vehicle-rental-system
-2. Install Dependencies
-Bash
 
+2️⃣ Install Dependencies
 npm install
-3. Environment Setup
-Create a .env file in the root directory and configure the following:
 
-Code snippet
+3️⃣ Environment Variables
+
+Create a .env file in the root directory:
 
 PORT=5000
 DATABASE_URL=postgresql://username:password@localhost:5432/your_database
-4. Database Initialization
-Ensure PostgreSQL is installed and running.
 
-Create your database tables (Users, Vehicles, Bookings) using the provided schema scripts.
+4️⃣ Database Setup
 
-5. Start the Server
-Bash
+Create a PostgreSQL database
 
-# For development with auto-reload
+Run required table creation scripts (users, vehicles, bookings, etc.)
+
+5️⃣ Run the Server
 npm run dev
 
-# For production
-npm run build
-npm start
+
+Server will start at:
+
+http://localhost:5000
+
 ▶️ Usage
-Use Postman or Thunder Client to test the API endpoints.
 
-Register/Login to receive an authentication token.
+Use Postman / Thunder Client to test API endpoints
 
-Admins: Manage the vehicle inventory and user roles.
+Authenticate users before accessing protected routes
 
-Customers: Book vehicles and manage personal profile settings.
+Admins can manage vehicles and users
 
-📈 Future Improvements
-[ ] JWT Implementation: Secure stateless authentication.
-
-[ ] Payment Integration: Support for online payments (Stripe/SSLCommerz).
-
-[ ] Advanced Validation: Using Zod or Joi for request body validation.
-
-[ ] Frontend Integration: Building a client-side dashboard with React or Next.js.
-
-[ ] Unit Testing: Implementing tests with Jest and Supertest.
+Customers can update their own profile only
