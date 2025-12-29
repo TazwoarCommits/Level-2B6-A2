@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { vehiclesServices } from "./vehicles.services";
-import { JwtPayload } from "jsonwebtoken";
 
 const createVehicle = async (req: Request, res: Response) => {
   try {
