@@ -62,6 +62,32 @@ const getSingleVehicle = async (req: Request, res: Response) => {
   }
 };
 
+const updateVehicle = async (req : Request , res : Response) => {
+  try {
+    const result = await vehiclesServices.updateVehicle(req) ; 
+    if(result?.status === "not_found"){
+      return res.status(404).json({
+        success : false , 
+        message : "Vehicle not found"
+      }) ;
+    }
+
+    if (result?.status === "success"){
+      return res.status(200).json({
+        success : true ,
+        message : "Vehicle updated successfully" ,
+        data : result.result 
+      }) ;
+    }
+  } catch (error : any) {
+    return res.status(500).json({
+      success : false ,
+      message : error.message,
+      details : error
+    });
+  }
+}
+
 const deleteVehicle = async (req: Request, res: Response) => {
   const id = req.params.id;
   const user = req.user;
@@ -100,5 +126,6 @@ export const vehiclesControllers = {
   createVehicle,
   getVehicles,
   getSingleVehicle,
+  updateVehicle ,
   deleteVehicle,
 };
